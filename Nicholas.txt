@@ -1,0 +1,2 @@
+email:		us@kindlymed.com
+password:	vikings86
