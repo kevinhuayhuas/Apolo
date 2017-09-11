@@ -1,0 +1,35 @@
+
+<!-- <a [routerLink]="['/products/create']"><button class="btn btn-success mb-3">New Product</button></a>-->
+
+<input type="text" class="form-control mb-3" placeholder="Search" required (keydown)='updateFilter($event)'>
+
+<ngx-datatable 
+[columns]="columnsRpiparts" 
+[columnMode]="'force'" 
+[headerHeight]="40" 
+[footerHeight]="50" 
+[rowHeight]="'auto'" 
+[limit]="50" 
+[rows]='rowsRpiparts'
+[selected]="selected" 
+(select)="onSelectRpiparts($event)" 
+[selectionType]="'row'"
+[count]="count">
+</ngx-datatable>
+
+<!--
+<ngx-datatable 
+[columns]="columns" 
+[columnMode]="'force'" 
+[headerHeight]="40" 
+[footerHeight]="50" 
+[rowHeight]="'auto'" 
+[limit]="50" 
+[rows]='rows'
+[selected]="selected" 
+[selectionType]="'row'"
+(select)="onSelect($event)" 
+(activate)="onActivate($event)">
+
+</ngx-datatable>
+-->

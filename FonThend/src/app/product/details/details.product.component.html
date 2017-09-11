@@ -1,0 +1,226 @@
+<div class="row">
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                Rpiparts
+            </div>
+            <div class="card-block">
+                <form #frpiparts="ngForm" (ngSubmit)="onSubmitrpiparts(frpiparts)" novalidate>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" required name="title" aria-describedby="titlelHelp" placeholder="Shot Sleeve T-Shirt"
+                            ngModel #title="ngModel" value="{{pr?.title}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="title">RPI</label>
+                        <input type="text" class="form-control" id="rpi" required name="rpi" aria-describedby="rpiHelp" placeholder="Shot Sleeve T-Shirt"
+                            ngModel #rpi="ngModel" value="{{pr?.rpi}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="title">OEM</label>
+                        <input type="text" class="form-control" id="oem" required name="oem" aria-describedby="oemlHelp" placeholder="Shot Sleeve T-Shirt"
+                            ngModel #oem="ngModel" value="{{pr?.oem}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+
+                        <!-- Create toolbar container -->
+                        <div id="toolbarRpiparts">
+                            <span class="ql-formats">
+                                        <select class="ql-font">
+                                        <option selected=""></option>
+                                        <option value="serif"></option>
+                                        <option value="monospace"></option>
+                                        </select>
+                                        <select class="ql-size">
+                                        <option value="small"></option>
+                                        <option selected=""></option>
+                                        <option value="large"></option>
+                                        <option value="huge"></option>
+                                        </select>
+                                        </span>
+                            <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                        <button class="ql-strike"></button>
+                                        </span>
+                            <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                        <select class="ql-background"></select>
+                                        </span>
+                            <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <select class="ql-align">
+                                        <option selected=""></option>
+                                        <option value="center"></option>
+                                        <option value="right"></option>
+                                        <option value="justify"></option>
+                                        </select>
+                                        </span>
+                            <span class="ql-formats">
+                                        <button class="ql-link"></button>
+                                        <button class="ql-image"></button>
+                                        </span>
+                        </div>
+                        <div id="editorRpiparts">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="images">Images</label><br>
+                        <img src="{{pr?.img}}" /><br><br>
+                        <!--
+                        <input type="file" class="form-control-file" id="images" aria-describedby="fileHelp">
+                        <small id="fileHelp" class="form-text text-muted">Upload Image.</small>
+                        -->
+                    </div>
+
+                    <div class="form-group">
+                            <label for="pricing">Prices</label>
+                            <table class="table table-hover table-bordered">
+                                <thead>
+                                    <tr><th colspan="4" class="text-center"><strong>Quantity</strong></th></tr>
+                                    <tr>
+                                        <th *ngFor="let header of headerPriceRpiparts">{{header}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td *ngFor="let priceRpiparts of pricesRpiparts">{{priceRpiparts}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input type="text" class="form-control" id="tags" aria-describedby="tagslHelp" placeholder="Vintage, cotton, summer" name="tags"
+                            ngModel #tags="ngModel" value="{{pr?.tags}}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="frpiparts.invalid">Save</button>
+                    <button class="btn btn-danger" (click)="delete()" [disabled]="frpiparts.invalid">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                Shopify
+            </div>
+            <div class="card-block">
+                <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" required name="title" aria-describedby="titlelHelp" placeholder="Shot Sleeve T-Shirt"
+                            ngModel #title="ngModel" value="{{p?.title}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+
+                        <!-- Create toolbar container -->
+                        <div id="toolbar">
+                            <span class="ql-formats">
+                                <select class="ql-font">
+                                <option selected=""></option>
+                                <option value="serif"></option>
+                                <option value="monospace"></option>
+                                </select>
+                                <select class="ql-size">
+                                <option value="small"></option>
+                                <option selected=""></option>
+                                <option value="large"></option>
+                                <option value="huge"></option>
+                                </select>
+                                </span>
+                            <span class="ql-formats">
+                                <button class="ql-bold"></button>
+                                <button class="ql-italic"></button>
+                                <button class="ql-underline"></button>
+                                <button class="ql-strike"></button>
+                                </span>
+                            <span class="ql-formats">
+                                <select class="ql-color"></select>
+                                <select class="ql-background"></select>
+                                </span>
+                            <span class="ql-formats">
+                                <button class="ql-list" value="ordered"></button>
+                                <button class="ql-list" value="bullet"></button>
+                                <select class="ql-align">
+                                <option selected=""></option>
+                                <option value="center"></option>
+                                <option value="right"></option>
+                                <option value="justify"></option>
+                                </select>
+                                </span>
+                            <span class="ql-formats">
+                                <button class="ql-link"></button>
+                                <button class="ql-image"></button>
+                                </span>
+                        </div>
+                        <div id="editor">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionupdated">Part Description Updated</label>
+                        <input type="date" class="form-control" id="descriptionupdated" name="descriptionupdated" aria-describedby="descriptionupdatedHelp"
+                            ngModel #descriptionupdated="ngModel" />
+                    </div>
+                    <div class="form-group">
+                        <label for="images">Images</label>
+                        <input type="file" class="form-control-file" id="images" aria-describedby="fileHelp">
+                        <small id="fileHelp" class="form-text text-muted">Upload Image.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendor">Vendor</label>
+                        <input type="text" class="form-control" id="vendor" aria-describedby="vendorlHelp" name="vendor" placeholder="Kevin" ngModel
+                            #vendor="ngModel" value="{{p?.vendor}}" />
+                    </div>
+
+                    <div class="form-group">
+                        <div *ngIf="p?.variants.length >= 1 ">
+                            <label for="pricing">Variants</label>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>N°</th>
+                                        <!-- Aqui cargamos todas las opciones que tiene el producto maximo 3 -->
+                                        <th *ngFor="let option of p?.options ">{{option.name}}</th>
+                                        <th>Price</th>
+                                        <th>SKU</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let variant of p?.variants; let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td *ngIf="variant.option1 != null">{{variant.option1}}</td>
+                                        <td *ngIf="variant.option2 != null">{{variant.option2}}</td>
+                                        <td *ngIf="variant.option3 != null">{{variant.option3}}</td>
+                                        <td>{{variant.price}}</td>
+                                        <td>{{variant.sku}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <input type="text" class="form-control" id="type" aria-describedby="typeHelp" placeholder="Shirts" name="type" ngModel #type="ngModel"
+                            value="{{p?.product_type}}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags</label>
+                        <input type="text" class="form-control" id="tags" aria-describedby="tagslHelp" placeholder="Vintage, cotton, summer" name="tags"
+                            ngModel #tags="ngModel" value="{{p?.tags}}" />
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="f.invalid">Save</button>
+                    <button class="btn btn-danger" (click)="delete()" [disabled]="frpiparts.invalid">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
