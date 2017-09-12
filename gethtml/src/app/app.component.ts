@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+
 import { FormBuilder, FormGroup, Validators, FormControl, NgForm } from '@angular/forms';
 import * as Quill from 'quill';
 import 'rxjs/add/operator/map';
@@ -15,6 +16,13 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
   providers: [ProductsService] //importanto mi servicio
 })
 export class AppComponent implements OnInit {
+  //variables 
+  collection = null;
+  subcollection = [];
+  subcollectionNivel1 = [];
+  //link Subcategopria
+  linkSubCollection = [];
+  linkSubCollectionNivel1 = [];
   //https://www.rpiparts.com/partsfit.asp
   url;
   quill;
@@ -77,21 +85,79 @@ export class AppComponent implements OnInit {
 
   getUrl = () => {
     this.url = $("#uri").val();
-    //  $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.url);
-
+    try {
+      $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.url);
+    } catch (error) {
+    }
 
     const interval = window.setInterval(() => {
+      //variables
+      let collectionArray = [];
+      let subCollectionArray = [];
+      let linkSubCollectionArray = [];
+      //collecciones
+      $(".p7AP3trig").each(function () {
+        let collect = $(this).find('img').attr("alt");
+        //obteniendo las colecciones
+        collectionArray.push(collect);
+      });
+      //capturando las colecciones
+      this.collection = collectionArray;
+      //subcolecciones
+      $("ul li").each(function () {
+        let subCollect = $(this).text();
+        let linkSubCollect = $(this).find("a").attr("href");
+        subCollectionArray.push(subCollect);
+        linkSubCollectionArray.push("https://www.rpiparts.com/" + linkSubCollect);
+      });
+      //capturando las colecciones
+      this.subcollection = subCollectionArray;
+      //capturando link de subcollecciones}
+      this.linkSubCollection = linkSubCollectionArray;
+      //imprimiendo
+      console.log(this.collection);
+      console.log(this.subcollection);
+      console.log(this.linkSubCollection);
+      //salir
+      //cerramos intervalo de tiempo
+      clearInterval(interval);
+      //cargando un nuevo DOM
 
-      // alert($("#content_url").contentDocument.find('.content').html());
+      for (var index = 0; index < this.linkSubCollection.length; index++) {
+        $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.linkSubCollection[index]);
 
-      var test = window.frames[0].document.body.innerHTML;
+        //Nuevo intervalo de tiempo
+        const interval2 = window.setInterval(() => {
+          let subCollectionArrayNivel2 = [];
+          let linkSubCollectionArrayNivel2 = [];
+
+          $("ul li").each(function () {
+            let subCollectNivel2 = $(this).text();
+            let linkSubCollectNivel2 = $(this).find("a").attr("href");
+            subCollectionArrayNivel2.push(subCollectNivel2);
+            linkSubCollectionArrayNivel2.push("https://www.rpiparts.com/" + linkSubCollectNivel2);
+          });
+
+            //capturando las colecciones
+            this.subcollectionNivel1.push(subCollectionArrayNivel2);
+            //capturando link de subcollecciones}
+            this.linkSubCollectionNivel1.push(linkSubCollectionArrayNivel2);
 
 
-      alert(test)
-      //this.load();
 
-      clearInterval(interval);//salir
-    }, 3000);
+          console.log(this.subcollectionNivel1);
+          console.log(this.linkSubCollectionNivel1);
+          //cerramos intervalo de tiempo
+          clearInterval(interval2);
+        }, 5000);
+
+        if (index >= 1) {
+          break;
+        }
+
+      }//fin for
+    }, 5000);
+
   }
 
   onSubmit(f: NgForm) {
