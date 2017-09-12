@@ -53,7 +53,10 @@ export class ProductsService {
                     "tags": data.tags,
                     "fmcudata": data.fmcudata,
                     "allinfo": data.allinfo,
-                    "html": data.html
+                    "html": data.html,
+                    "nrepitencia": 0,
+                    "link":"",
+                    "listag":""
                 }
             };
 

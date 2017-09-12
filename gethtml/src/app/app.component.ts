@@ -20,9 +20,15 @@ export class AppComponent implements OnInit {
   collection = null;
   subcollection = [];
   subcollectionNivel1 = [];
+  rpi = [];
+  tags = [];
   //link Subcategopria
   linkSubCollection = [];
   linkSubCollectionNivel1 = [];
+  linkRpi = [];
+  //count sub links
+  countSubLink = 0;
+  countSubLinkRpi = 0;
   //https://www.rpiparts.com/partsfit.asp
   url;
   quill;
@@ -84,12 +90,13 @@ export class AppComponent implements OnInit {
   }
 
   getUrl = () => {
+    $(".loading").show();
+    $(".image_loading").hide();
     this.url = $("#uri").val();
     try {
       $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.url);
     } catch (error) {
     }
-
     const interval = window.setInterval(() => {
       //variables
       let collectionArray = [];
@@ -114,51 +121,113 @@ export class AppComponent implements OnInit {
       this.subcollection = subCollectionArray;
       //capturando link de subcollecciones}
       this.linkSubCollection = linkSubCollectionArray;
-      //imprimiendo
-      console.log(this.collection);
-      console.log(this.subcollection);
-      console.log(this.linkSubCollection);
-      //salir
       //cerramos intervalo de tiempo
       clearInterval(interval);
       //cargando un nuevo DOM
+      this.setIntervalSubLink(0);
 
-      for (var index = 0; index < this.linkSubCollection.length; index++) {
-        $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.linkSubCollection[index]);
-
-        //Nuevo intervalo de tiempo
-        const interval2 = window.setInterval(() => {
-          let subCollectionArrayNivel2 = [];
-          let linkSubCollectionArrayNivel2 = [];
-
-          $("ul li").each(function () {
-            let subCollectNivel2 = $(this).text();
-            let linkSubCollectNivel2 = $(this).find("a").attr("href");
-            subCollectionArrayNivel2.push(subCollectNivel2);
-            linkSubCollectionArrayNivel2.push("https://www.rpiparts.com/" + linkSubCollectNivel2);
-          });
-
-            //capturando las colecciones
-            this.subcollectionNivel1.push(subCollectionArrayNivel2);
-            //capturando link de subcollecciones}
-            this.linkSubCollectionNivel1.push(linkSubCollectionArrayNivel2);
-
-
-
-          console.log(this.subcollectionNivel1);
-          console.log(this.linkSubCollectionNivel1);
-          //cerramos intervalo de tiempo
-          clearInterval(interval2);
-        }, 5000);
-
-        if (index >= 1) {
-          break;
-        }
-
-      }//fin for
-    }, 5000);
+    }, 15000);
 
   }
+
+
+  setIntervalSubLink = (link) => {
+    $("#content_html").load("https://cors-anywhere.herokuapp.com/" + this.linkSubCollection[link]);
+    //Nuevo intervalo de tiempo
+    const interval = window.setInterval(() => {
+      let subCollectionArrayNivel = [];
+      let linkSubCollectionArrayNivel = [];
+
+      $("ul li").each(function () {
+        let subCollectNivel = $(this).text();
+        let linkSubCollectNivel = $(this).find("a").attr("href");
+        subCollectionArrayNivel.push(subCollectNivel);
+        linkSubCollectionArrayNivel.push("https://www.rpiparts.com/" + linkSubCollectNivel);
+      });
+
+      this.countSubLink = this.countSubLink + linkSubCollectionArrayNivel.length;
+
+      //capturando las colecciones
+      this.subcollectionNivel1.push(subCollectionArrayNivel);
+      //capturando link de subcollecciones
+      this.linkSubCollectionNivel1.push(linkSubCollectionArrayNivel);
+
+      //cerramos intervalo de tiempo
+      clearInterval(interval);
+      if (link < 8) {
+        this.setIntervalSubLink(link + 1);
+      } else {
+        this.setIntervalListProduct(0, 0);
+      }
+    }, 15000);
+  }
+
+
+
+  setIntervalListProduct = (link, sublink) => {
+    let linkSubCollectionNivel1 = this.linkSubCollectionNivel1[link];
+    let lengthlinkSubCollectionNivel1 = this.linkSubCollectionNivel1[link].length;
+    $("#content_html").load("https://cors-anywhere.herokuapp.com/" + linkSubCollectionNivel1[sublink]);
+
+    const interval = window.setInterval(() => {
+      let rpiProducts = [];
+      let linkRpiProducts = [];
+      let count = 1;
+      let tag = [];
+      //test print.
+      $("table").each(function () {
+        tag.push($(this).find("h2").text());
+      });
+      this.tags.push(tag);
+
+      $("table[border=1] a").each(function () {
+        if ($(this).parent().attr("valign")) {
+          let rpiProduct = $(this).text();
+          let linkRpiProduct = $(this).attr("href");
+          rpiProducts.push($(this).text());
+          linkRpiProducts.push("https://www.rpiparts.com/" + linkRpiProduct);
+        }
+      });
+
+      this.countSubLinkRpi = this.countSubLinkRpi + linkRpiProducts.length;
+      //capturando el rpi
+      this.rpi.push(rpiProducts);
+      //capturando el link del rpi
+      this.linkRpi.push(linkRpiProducts);
+      clearInterval(interval);
+
+      if (link < 8 && sublink < lengthlinkSubCollectionNivel1) {
+        this.setIntervalListProduct(link, sublink + 1);
+      } else {
+        $(".loading").hide();
+        this.compareProducts();
+      }
+    }, 15000);
+  }
+
+  compareProducts = () => {
+    this.rpi.forEach(function (e) {
+      e.forEach(function (element) {
+        console.log(element);
+      });
+    });
+  }
+
+  update = (data) => {
+    this._ProductsService.createProduct(data).subscribe(
+      result => {
+        console.log(result.items);
+        $(".meesage_close").fadeIn("slow");
+        $(".insert_html").val("");
+      },
+      error => {
+        let mensajeerror = <any>error;
+        console.log(mensajeerror);
+      }
+    );
+  }
+
+
 
   onSubmit(f: NgForm) {
     this.array = f.value.description;

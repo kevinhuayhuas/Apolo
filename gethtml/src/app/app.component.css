@@ -14,3 +14,15 @@ display: none;
 .text{
 font-size: 9.5px;
 }
+.loading{
+position: fixed;
+top: 15px;
+right: 15px;
+display: none;
+}
+.tag{
+font-size: 8px;
+}
+.container {
+width: 1600px;
+}

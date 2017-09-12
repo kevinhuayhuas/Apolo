@@ -1,4 +1,5 @@
 <!-- Create toolbar container -->
+<div class="loading"> <img src="../assets/loading.gif" width="50" /></div>
 <div class="container margin_top">
 
   <div class="row">
@@ -101,7 +102,7 @@
   </div>
   <div *ngIf="collection == null ;then content else other_content">here is ignored</div>
   <ng-template #content>
-    <div class="row">
+    <div class="row image_loading">
       <div class="col-md-12 text-center">
         <img src="../assets/loading.gif" width="50" />
       </div>
@@ -134,23 +135,62 @@
       </div>
     </div>
     <div class="row">
-        <div class="col-md-12 text-center">
-          <h1>PartsList</h1>
+      <div class="col-md-12 text-center">
+        <h1>PartsList</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h3> Title sub Links:</h3>
+        <div *ngFor="let subcollectNivel1 of subcollectionNivel1; let i= index" [attr.data-index]="i">
+          <div *ngFor="let cln1 of subcollectNivel1; let i= index" [attr.data-index]="i">
+            <a class="text">{{cln1}}</a>
+          </div>
+          <hr>
         </div>
       </div>
+      <div class="col-md-4">
+        <h3>Sub Links: #{{linkSubCollectionNivel1.length}} Total : {{countSubLink}}</h3>
+        <div *ngFor="let linkSubCollectnNivel1 of linkSubCollectionNivel1; let i= index" [attr.data-index]="i">
+          <div *ngFor="let lcln1 of linkSubCollectnNivel1; let i= index" [attr.data-index]="i">
+            <a class="text" href="{{lcln1}}" target="_blank">{{lcln1}}</a>
+          </div>
+          <hr>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h3>Tags: {{tags.length}} de {{countSubLink}}</h3>
+        <div *ngFor="let tag of tags; let i= index" [attr.data-index]="i">
+          <a class="text tag">{{tag[0]}}</a>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h1>ProductList</h1>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-6">
-        <h3>Title Links:{{subcollectionNivel1.length}}</h3>
-        <div *ngFor="let subcollectNivel1 of subcollectionNivel1; let i= index" [attr.data-index]="i">
-          <a class="text">{{subcollectNivel1}}</a>
+        <h3> RPI:</h3>
+        <div *ngFor="let rpiproduct of rpi; let i= index" [attr.data-index]="i">
+          <div *ngFor="let view of rpiproduct; let i= index" [attr.data-index]="i">
+            <a class="text">{{view}}</a>
+          </div>
+          <hr>
         </div>
       </div>
       <div class="col-md-6">
-        <h3>Sub Links:{{linkSubCollectionNivel1.length}}</h3>
-        <div *ngFor="let linkSubCollectnNivel1 of linkSubCollectionNivel1; let i= index" [attr.data-index]="i">
-          <a class="text" href="{{linkSubCollectnNivel1}}" target="_blank">{{linkSubCollectnNivel1}}</a>
+        <h3>Link RPI: #{{linkRpi.length}} Total: {{countSubLinkRpi}}</h3>
+        <div *ngFor="let linkRpiProduct of linkRpi; let i= index" [attr.data-index]="i">
+          <div *ngFor="let view of linkRpiProduct; let i= index" [attr.data-index]="i">
+            <a class="text" href="{{view}}" target="_blank">{{view}}</a>
+          </div>
+          <hr>
         </div>
       </div>
+
     </div>
   </ng-template>
 </div>
